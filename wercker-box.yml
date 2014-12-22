@@ -1,6 +1,6 @@
 name: gentoo-crossdev-avr
 version: 1.0.0
-inherits: attilaolah/gentoo-crossdev@20141030.0.0
+inherits: attilaolah/gentoo-crossdev@20141030.1.0
 type: main
 platform: ubuntu@12.04
 description: Wercker box that contains a Gentoo chroot with the AVR toolchain installed
@@ -13,9 +13,8 @@ keywords:
 packages:
   - crossdev@20141030
 script: |
-  binutils_version="2.24-r3"
-  gcc_version="4.8.3"
-  libc_version="1.8.0"
   root="/gentoo"
 
-  sudo chroot ${root} crossdev USE="-openmp" crossdev --stage4 --portage "--quiet-build=n" --binutils "=${binutils_version}" --gcc "=${gcc_version}" --libc "=${libc_version}" --ov-output "/usr/portage" --without-headers --target avr
+  sudo cp "${WERCKER_SOURCE_DIR}/run.sh" "${root}"
+  sudo chroot "${root}" "/run.sh"
+  sudo rm "${root}/run.sh"
